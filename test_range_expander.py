@@ -18,6 +18,16 @@ class Testrangeexpander(unittest.TestCase):
         result = expander.expand("1..3,4~6,10 to 12")
         assert result == [1, 2, 3, 4, 5, 6, 10, 11, 12]
 
+    def test_stage4_reversed_and_invalid(self):
+        expander = RangeExpander(['-', '..', 'to', '~'])
+        assert expander.expand("5-3,3-3,2") == [5, 4, 3, 3, 2]
+
+        try:
+            expander.expand("3-a")
+            assert False, "Expected ValueError"
+        except ValueError:
+            pass
+
 
 if __name__=='__main__':
     unittest.main()

@@ -1,3 +1,4 @@
+
 class RangeExpander:
     def __init__(self, delimiters=None):
         self.delimiters = delimiters or ['-']
@@ -7,6 +8,7 @@ class RangeExpander:
             if delim in token:
                 return token.split(delim)
         return None
+
 
     def expand(self, input_str):
         result = []
@@ -18,9 +20,17 @@ class RangeExpander:
             parts = self._split_range(token)
             if parts:
                 start, end = parts
-                start = int(start.strip())
-                end = int(end.strip())
-                result.extend(range(start, end + 1))
+                start = start.strip()
+                end = end.strip()
+                if not start.isdigit() or not end.isdigit():
+                    raise ValueError(f"Invalid range: {token}")
+                start = int(start)
+                end = int(end)
+                step = 1 if start <= end else -1
+                result.extend(range(start, end + step, step))
             else:
-                result.append(int(token.strip()))
+                token = token.strip()
+                if not token.isdigit():
+                    raise ValueError(f"Invalid number: {token}")
+                result.append(int(token))
         return result
