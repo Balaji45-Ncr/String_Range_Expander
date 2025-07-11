@@ -3,6 +3,9 @@ class RangeExpander:
         result = []
         tokens = input_str.split(',')
         for token in tokens:
+            token=token.strip()
+            if not token:
+                continue
             if '-' in token:
                 start, end = token.split('-')
                 start = int(start)
