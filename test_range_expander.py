@@ -28,6 +28,11 @@ class Testrangeexpander(unittest.TestCase):
         except ValueError:
             pass
 
+    def test_stage5_step_values(self):
+        expander = RangeExpander(delimiters=['-'], step_delimiter=':')
+        self.assertEqual(expander.expand("1-10:2"), [1, 3, 5, 7, 9])
+        self.assertEqual(expander.expand("10-1:3"), [10, 7, 4, 1])
+
 
 if __name__=='__main__':
     unittest.main()
