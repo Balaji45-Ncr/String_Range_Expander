@@ -9,7 +9,7 @@ class RangeExpander:
                 return token.split(delim)
         return None
 
-    def expand(self, input_str):
+    def expand(self, input_str, output_format='list'):
         result = []
         tokens = input_str.split(',')
 
@@ -49,9 +49,17 @@ class RangeExpander:
                 result.extend(range(start, end + direction, step))
 
             else:
-
                 if not token.isdigit():
                     raise ValueError(f"Invalid number: {token}")
                 result.append(int(token))
 
-        return result
+        result = sorted(set(result))
+
+        if output_format == 'list':
+            return result
+        elif output_format == 'csv':
+            return ','.join(str(num) for num in result)
+        elif output_format == 'set':
+            return set(result)
+        else:
+            raise ValueError(f"Unsupported output format: {output_format}")
